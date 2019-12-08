@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dada.mapper.SysRoleMapper">
+
+  <resultMap id="BaseResultMap" type="com.dada.entity.sys.SysRole">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_related_sys_user" jdbcType="VARCHAR" property="isRelatedSysUser"/>
+    <result column="is_related_sys_permission" jdbcType="VARCHAR" property="isRelatedSysPermission"/>
+  </resultMap>
+
+
+  <select id="findList" parameterType="com.dada.entity.sys.SysRole" resultMap="BaseResultMap">
+    SELECT
+    t.*, (
+    CASE
+    WHEN (
+    SELECT
+    COUNT(t2.id)
+    FROM
+    sys_user_role t2
+    WHERE
+    t2.role_id = t.id
+    ) THEN
+    '1'
+    ELSE
+    '0'
+    END
+    ) AS is_related_sys_user,
+    (
+    CASE
+    WHEN (
+    SELECT
+    COUNT(t3.id)
+    FROM
+    sys_role_permission t3
+    WHERE
+    t3.role_id = t.id
+    ) THEN
+    '1'
+    ELSE
+    '0'
+    END
+    ) AS is_related_sys_permission
+    FROM
+    sys_role t
+    WHERE
+    1 = 1
+    <if test="name != null and name != ''">
+      AND t.name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    ORDER BY t.update_time DESC
+  </select>
+
+  <select id="findListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+      t2.*
+    FROM
+      sys_user_role t
+        LEFT JOIN sys_role t2 ON t.role_id = t2.id
+    WHERE
+      t.user_id = #{id}
+  </select>
+</mapper>

@@ -1,0 +1,60 @@
+package com.dada.config.secrity;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
+import org.springframework.security.web.AuthenticationEntryPoint;
+
+/**
+ * 资源服务器配置
+ */
+@Configuration
+@EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
+    /**
+     * 自定义异常转换类
+     */
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        // 定义异常转换类生效
+        AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
+        ((OAuth2AuthenticationEntryPoint) authenticationEntryPoint).setExceptionTranslator(new Auth2ResponseExceptionTranslator());
+        resources.authenticationEntryPoint(authenticationEntryPoint);
+    }
+
+    /**
+     * 接口是否需要认证之后才能访问
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        /*测试接口时暂时先放开全部*/
+//        http.
+//                csrf().
+//                disable().
+//                exceptionHandling().
+//                // 定义的不存在access_token时候响应
+//                authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+//                .and().
+//                authorizeRequests()
+//                /*放开的接口*/
+//                .antMatchers("/user/login", "/rpc/user/getByName", "/rpc/user/getUserInfo").permitAll()
+//                /*其余全部需要认证之后才能访问*/
+//                .antMatchers("/**").authenticated()
+//                .and().httpBasic().disable();
+
+        http
+                .csrf().disable()
+                .exceptionHandling()
+                .and()
+                .authorizeRequests().antMatchers("/**/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic().disable();
+    }
+}

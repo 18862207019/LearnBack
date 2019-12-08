@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dada.mapper.SysTaskMapper">
+  <resultMap id="BaseResultMap" type="com.dada.entity.task.SysTask">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="completion" jdbcType="LONGVARCHAR" property="completion" />
+    <result column="file_id" jdbcType="INTEGER" property="fileId" />
+    <result column="c_time" jdbcType="TIMESTAMP" property="cTime" />
+    <result column="u_time" jdbcType="TIMESTAMP" property="uTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, title, `state`, `type`, `completion`, file_id, c_time, u_time, end_time
+  </sql>
+</mapper>

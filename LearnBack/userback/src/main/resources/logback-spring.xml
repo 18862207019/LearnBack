@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--debug="true" : 打印logback内部状态（默认当logback运行出错时才会打印内部状态 ），配置该属性后打印条件如下（同时满足）： 
+	1、找到配置文件 2、配置文件是一个格式正确的xml文件 也可编程实现打印内部状态，例如： LoggerContext lc = (LoggerContext) 
+	LoggerFactory.getILoggerFactory(); StatusPrinter.print(lc); -->
+<!-- scan="true" ： 自动扫描该配置文件，若有修改则重新加载该配置文件 -->
+<!-- scanPeriod="30 seconds" : 配置自动扫面时间间隔（单位可以是：milliseconds, seconds, minutes 
+	or hours，默认为：milliseconds）， 默认为1分钟，scan="true"时该配置才会生效 -->
+<configuration debug="false" scan="true" scanPeriod="30 seconds"   packagingData="true">
+
+    <!-- 属性文件 -->
+    <property name="processName" value="xxx"/>
+    <property name="logDir" value="${user.dir}/log/car_renting_web_log"/>
+
+    <!-- 默认的控制台日志输出，一般生产环境都是后台启动，这个没太大作用 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+<!--         <Encoding>UTF-8</Encoding> -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 配置文件轮转 -->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--         <Encoding>UTF-8</Encoding> -->
+<!--         <File>${logDir}/service.log</File> -->
+<!-- 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"> -->
+<!--             <level>ERROR</level>  //打印error -->
+<!--         </filter> -->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logDir}/__%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
+        </layout>
+        
+        <encoder>
+	          <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%-5level] [%thread]  %logger{36} -  %msg%n</pattern>
+		</encoder>
+    </appender>
+
+
+    <!-- 修改其他包的日志输出级别 -->
+<!--     <logger name="org.apache.zookeeper"> -->
+<!--         <level value="WARN"/> -->
+<!--     </logger> -->
+
+    <!-- root 默认日志配置 ， 注意这里的级别哈！小心生产环境用DEBUG，压爆你的磁盘！-->
+<!--     <root level="DEBUG"> -->
+    <root level="INFO">
+        <appender-ref ref="logfile"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+
+
+</configuration>

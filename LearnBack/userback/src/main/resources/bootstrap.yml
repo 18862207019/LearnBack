@@ -1,0 +1,68 @@
+spring:
+#  全局异常处理
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+#  redis
+  redis:
+    host: 47.112.12.45
+    port: 6379
+  application:
+    name: userback
+# 数据库
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.112.12.45:3306/learn_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: Dada980122#
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+#  注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+# 一级缓存
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+# spring-security
+security:
+  oauth2:
+    client:
+      client-id: system
+      client-secret: secret
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token
+#  mybatis-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    #xml热加载
+    refresh: true
+    field-strategy: 1
+  mapper-locations:
+    - classpath:/mapper/*Mapper.xml
+# server
+server:
+  port: 9999
+#  日志
+logging:
+  config: classpath:logback-spring.xml
+#  解决feign 调用超时问题   祥见博客 https://blog.csdn.net/Zzhou1990/article/details/79149762
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 30000
