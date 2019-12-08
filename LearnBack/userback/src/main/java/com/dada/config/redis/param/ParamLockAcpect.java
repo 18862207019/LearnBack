@@ -14,23 +14,31 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 
-/** 分布式锁方法参数拦截切面 */
+/**
+ * 分布式锁方法参数拦截切面
+ */
 @Aspect
 @Component
 @Slf4j
 public class ParamLockAcpect {
-  @Autowired private RedisService redisService;
+  @Autowired
+  private RedisService redisService;
 
-  @Autowired private UserService userService;
+  @Autowired
+  private UserService userService;
 
   @Pointcut("@annotation(com.dada.config.redis.param.MethodParamLock)")
-  public void redisLock() {}
+  public void redisLock() {
+  }
 
-  /** 前置通知 ：方法类全名+参数名+参数值为redis的key value*/
+  /**
+   * 前置通知 ：方法类全名+参数名+参数值为redis的key value
+   */
   @Before("redisLock()")
   public void doBefore(JoinPoint joinPoint) throws CacheException, IllegalAccessException {
 
@@ -54,7 +62,9 @@ public class ParamLockAcpect {
     log.info("用户：{}  获取锁成功：{}", currentUserName, stringBuffer.toString());
   }
 
-  /**返回通知:方法类全名+参数名+参数值为redis的key value*/
+  /**
+   * 返回通知:方法类全名+参数名+参数值为redis的key value
+   */
   @AfterReturning(returning = "ret", pointcut = "redisLock()")
   public void doBefore(JoinPoint joinPoint, Object ret)
       throws CacheException, IllegalAccessException {
@@ -73,7 +83,9 @@ public class ParamLockAcpect {
     log.info("用户：{}  释放锁: {}成功 返回值：{}", currentUserName, stringBuffer.toString(), ret);
   }
 
-  /**获取当前redis的Key和Value: 方法类全名+参数名+参数值为redis的key value*/
+  /**
+   * 获取当前redis的Key和Value: 方法类全名+参数名+参数值为redis的key value
+   */
   private void getLockKeyAndValue(JoinPoint joinPoint, StringBuffer stringBuffer) throws IllegalAccessException {
 
     /*获取当前方法全名*/
