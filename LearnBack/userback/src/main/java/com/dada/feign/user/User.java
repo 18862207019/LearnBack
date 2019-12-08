@@ -13,7 +13,6 @@ import util.result.Result;
 
 /**
  *  远程调用用户信息
- * @see oauth模块下的
  */
 @RequestMapping("/rpc/user")
 @RestController

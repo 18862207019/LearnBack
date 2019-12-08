@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class EhCacheService {
 
-    @Autowired
+    @Resource
     private EhCacheCacheManager ehCacheCacheManager;
 
     /**

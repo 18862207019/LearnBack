@@ -27,7 +27,6 @@ server:
   port: 8080
 logging:
   config: classpath:logback-spring.xml
-
 # 解决feign 调用超时问题   祥见博客 https://blog.csdn.net/Zzhou1990/article/details/79149762
 ribbon:
   ReadTimeout: 120000

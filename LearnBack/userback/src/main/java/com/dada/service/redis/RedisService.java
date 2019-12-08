@@ -84,19 +84,17 @@ public class RedisService extends CachingConfigurerSupport {
     public String getLock(String key,long acquireTimeout, long timeOut) {
         String uuid = UUIDUtil.getUUID();
         Long endTime = System.currentTimeMillis() + (acquireTimeout * 1000);
-        String result = stringRedisTemplate.execute(new RedisCallback<String>() {
-            public String doInRedis(RedisConnection redisConnection) throws DataAccessException {
-                while (System.currentTimeMillis() < endTime) {
-                    RedisSerializer<String> redisSerializer = stringRedisTemplate.getStringSerializer();
-                    byte[] keySerialize = redisSerializer.serialize(key);
-                    byte[] value = redisSerializer.serialize(uuid);
-                    if(redisConnection.setNX(keySerialize, value)) {
-                        redisConnection.expire(keySerialize, timeOut);
-                        return uuid;
-                    }
+        String result = stringRedisTemplate.execute((RedisCallback<String>) redisConnection -> {
+            while (System.currentTimeMillis() < endTime) {
+                RedisSerializer<String> redisSerializer = stringRedisTemplate.getStringSerializer();
+                byte[] keySerialize = redisSerializer.serialize(key);
+                byte[] value = redisSerializer.serialize(uuid);
+                if(redisConnection.setNX(keySerialize, value)) {
+                    redisConnection.expire(keySerialize, timeOut);
+                    return uuid;
                 }
-                return null;
             }
+            return null;
         });
         return result;
     }
