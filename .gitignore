@@ -530,3 +530,4 @@ LearnBack/api/target/classes/application.yml
 LearnBack/api/target/classes/com/dada/Api.class
 LearnBack/api/target/classes/com/dada/config/gateway/Gateway.class
 LearnBack/api/api.iml
+*.iml
