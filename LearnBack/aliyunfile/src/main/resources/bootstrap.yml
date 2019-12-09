@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        ext-config[0]:
+          data-id: nacos-discovery.yaml
+          refresh: true
+aliyun:
+  bucketName: learnback
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAI4FiaUNazrTZDPBHtri6V
+  accessKeySecret: DCK9YPZ0NgRpNIz3BLlFckZoeE4wgN
+

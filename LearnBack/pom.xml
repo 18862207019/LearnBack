@@ -11,6 +11,7 @@
         <module>userback</module>
         <module>common</module>
         <module>api</module>
+        <module>aliyunfile</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -20,7 +21,6 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/>
     </parent>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
