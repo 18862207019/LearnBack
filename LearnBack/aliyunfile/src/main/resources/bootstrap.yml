@@ -7,9 +7,13 @@ spring:
         ext-config[0]:
           data-id: nacos-discovery.yaml
           refresh: true
+  application:
+    name: filecenter
 aliyun:
   bucketName: learnback
   endpoint: oss-cn-beijing.aliyuncs.com
   accessKeyId: LTAI4FiaUNazrTZDPBHtri6V
   accessKeySecret: DCK9YPZ0NgRpNIz3BLlFckZoeE4wgN
-
+server:
+  port: 1000
+#TODO 待迁移至配置中心

@@ -34,3 +34,9 @@ spring:
         ext-config[9]:
           data-id: nacos-discovery.yaml
           refresh: true
+#TODO 待迁移至配置中心
+  main:
+    allow-bean-definition-overriding: true
+feign:
+  hystrix:
+    enabled: true
