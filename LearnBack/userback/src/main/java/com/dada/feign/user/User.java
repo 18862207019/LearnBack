@@ -5,10 +5,7 @@ import com.dada.entity.sys.SysUser;
 import com.dada.entity.vo.UserInfoVO;
 import com.dada.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import util.result.Result;
 
 /**
@@ -24,7 +21,7 @@ public class User {
     /**
      * 功能描述:  通过用户名获取当前用户 springSecrity内部会自动判断密码是否一致 密码加密判断
      */
-    @PostMapping("/getByName")
+    @GetMapping("/getByName")
     public Result<SysUser> getByName(@RequestParam("userName") String userName){
         SysUser sysUser = sysUserService.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, userName));
         return new Result<SysUser>().setData(sysUser);

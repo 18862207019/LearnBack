@@ -14,6 +14,9 @@ public class CodeMsg {
     public static CodeMsg 请求成功 = new CodeMsg(0, "请求成功");
     public static CodeMsg 参数不正确 = new CodeMsg(400, "参数不正确");
 
+
+    public static CodeMsg 请求到达上限 = new CodeMsg(500, "请求到达上限");
+
     private CodeMsg(int status, String msg ) {
         this.status = status;
         this.msg = msg;

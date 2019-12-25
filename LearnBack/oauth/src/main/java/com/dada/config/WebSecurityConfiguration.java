@@ -28,51 +28,59 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    /**自己的userDetailService*/
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
-    }
+  /**
+   * 自己的userDetailService
+   */
+  @Bean
+  @Override
+  public UserDetailsService userDetailsService() {
+    return new UserDetailsServiceImpl();
+  }
 
-    /**密码加密*/
-    @Bean
-    public BCryptPasswordEncoder passwordEncodery() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    /**登陆之后的才能授权*/
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /*将我们的模型和oauth2的模型对接一次*/
-        auth.userDetailsService(userDetailsService());
-    }
+  /**
+   * 密码加密
+   */
+  @Bean
+  public BCryptPasswordEncoder passwordEncodery() {
+    return new BCryptPasswordEncoder();
+  }
 
 
-    /**忽略接口/oauth/check_token*/
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/oauth/check_token");
-    }
+  /**
+   * 登陆之后的才能授权
+   */
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    /*将我们的模型和oauth2的模型对接一次*/
+    auth.userDetailsService(userDetailsService());
+  }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .exceptionHandling()
-                .and()
-                .authorizeRequests().antMatchers("/**/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic().disable();
-    }
+
+  /**
+   * 忽略接口/oauth/check_token
+   */
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers("/oauth/check_token");
+  }
+
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable()
+        .exceptionHandling()
+        .and()
+        .authorizeRequests().antMatchers("/oauth/token", "/remove_token").permitAll()
+        .anyRequest().authenticated()
+        .and()
+        .httpBasic().disable();
+  }
 
 
 }

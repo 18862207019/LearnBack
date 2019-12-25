@@ -16,4 +16,3 @@ aliyun:
   accessKeySecret: DCK9YPZ0NgRpNIz3BLlFckZoeE4wgN
 server:
   port: 1000
-#TODO 待迁移至配置中心

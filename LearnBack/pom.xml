@@ -12,6 +12,7 @@
         <module>common</module>
         <module>api</module>
         <module>aliyunfile</module>
+        <module>spikegoods</module>
     </modules>
     <packaging>pom</packaging>
 

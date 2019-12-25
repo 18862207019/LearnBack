@@ -22,16 +22,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MethodLockAcpect {
 
-  @Autowired private RedisService redisService;
+  @Autowired
+  private RedisService redisService;
 
-  @Autowired private UserService userService;
+  @Autowired
+  private UserService userService;
 
   @Pointcut("@annotation(com.dada.config.redis.menthod.MethodLock)")
-  public void redisLock() {}
+  public void redisLock() {
+  }
 
   /** 前置通知 获取redis锁 ： 方法类全名作为 redis 的key value */
   /**
-   *
    * @param joinPoint
    * @throws CacheException
    */
@@ -41,12 +43,8 @@ public class MethodLockAcpect {
     /*当前用户名称*/
     String currentUserName = userService.getCurrentUserName();
 
-    /*获取当前方法全名*/
+    /*设置当前锁的名称 currentUserName+*/
     String class_method = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
-
-
-    //当前方法的类全名
-
 
     String lock = redisService.getLock(class_method, class_method, 2000);
 
@@ -60,7 +58,9 @@ public class MethodLockAcpect {
     }
   }
 
-  /**后置通知释放锁*/
+  /**
+   * 后置通知释放锁
+   */
   @AfterReturning(returning = "ret", pointcut = "redisLock()")
   public void doAfterReturning(JoinPoint joinPoint, Object ret) throws Throwable {
 

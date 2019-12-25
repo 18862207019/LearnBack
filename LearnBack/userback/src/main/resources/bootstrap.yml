@@ -1,5 +1,4 @@
 spring:
-  cloud:
     nacos:
       config:
         server-addr: 127.0.0.1:8848
@@ -34,9 +33,12 @@ spring:
         ext-config[9]:
           data-id: nacos-discovery.yaml
           refresh: true
-#TODO 待迁移至配置中心
-  main:
-    allow-bean-definition-overriding: true
-feign:
-  hystrix:
-    enabled: true
+        ext-config[10]:
+          data-id: sentinel.yaml
+          refresh: true
+        ext-config[11]:
+          data-id: hystrix_enabled.yaml
+          refresh: true
+        ext-config[12]:
+          data-id: overriding_bean.yaml
+          refresh: true

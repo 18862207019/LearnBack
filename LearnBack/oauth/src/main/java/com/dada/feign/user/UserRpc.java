@@ -2,6 +2,7 @@ package com.dada.feign.user;
 
 import com.dada.entity.sys.SysUser;
 import com.dada.entity.vo.UserInfoVO;
+import org.springframework.web.bind.annotation.GetMapping;
 import util.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,8 @@ public interface UserRpc {
     /**
      * 功能描述: 通过名称返回当前用户信息
      */
-    @PostMapping("/rpc/user/getByName")
-    public Result<SysUser> getByName(@RequestParam("userName") String userName);
+    @GetMapping("/rpc/user/getByName")
+    Result<SysUser> getByName(@RequestParam("userName") String userName);
 
     /**
      * 功能描述: 获取用户详细信息d

@@ -34,27 +34,16 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
         /*测试接口时暂时先放开全部*/
-//        http.
-//                csrf().
-//                disable().
-//                exceptionHandling().
-//                // 定义的不存在access_token时候响应
-//                authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
-//                .and().
-//                authorizeRequests()
-//                /*放开的接口*/
-//                .antMatchers("/user/login", "/rpc/user/getByName", "/rpc/user/getUserInfo").permitAll()
-//                /*其余全部需要认证之后才能访问*/
-//                .antMatchers("/**").authenticated()
-//                .and().httpBasic().disable();
-
-        http
-                .csrf().disable()
-                .exceptionHandling()
-                .and()
-                .authorizeRequests().antMatchers("/**/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic().disable();
+        http.
+                csrf().
+                disable().
+                exceptionHandling()
+                .and().
+                authorizeRequests()
+                /*放开的接口*/
+                .antMatchers("/user/login", "/rpc/user/getByName", "/rpc/user/getUserInfo").permitAll()
+                /*其余全部需要认证之后才能访问*/
+                .antMatchers("/**").authenticated()
+                .and().httpBasic().disable();
     }
 }
